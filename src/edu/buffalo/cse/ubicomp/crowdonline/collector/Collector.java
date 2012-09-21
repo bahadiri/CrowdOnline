@@ -3,17 +3,23 @@ import twitter4j.TwitterException;
 import edu.buffalo.cse.ubicomp.crowdonline.asker.Question;
 import edu.buffalo.cse.ubicomp.crowdonline.db.DBHandler;
 
-public abstract class Collector implements Runnable{
+// NOW doing it single threaded way
+// later after decidng GUIS, I can turn it into forking style
+
+//public abstract class Collector implements Runnable{
+public abstract class Collector{
 	protected static int lastQuestionId = DBHandler.getQuestionDB().getLastID();
 	protected static boolean stop = false;
-//	protected static CollectorThread thread;
-//	public Collector() {
-//		thread = new CollectorThread();
-//	}
-//	
-//	public static CollectorThread getThread() {
-//		return thread;
-//	}
+	/*
+	protected static CollectorThread thread;
+	public Collector() {
+		thread = new CollectorThread();
+	}
+	
+	public static CollectorThread getThread() {
+		return thread;
+	}
+	*/
 	public static int getLastQuestionId() {
 		return lastQuestionId;
 	}
@@ -23,29 +29,23 @@ public abstract class Collector implements Runnable{
 	public static int renewQuestionId(){
 		return (lastQuestionId = DBHandler.getQuestionDB().getLastID());
 	}
-//	public static int incrementQuestionId() {
-//		return lastQuestionId++;
-//	}
-//	public static int resetQuestionId() {
-//		return (lastQuestionId = 1);
-//	}
-//	abstract public boolean collect();
+
+	abstract public void collect();
 	abstract public char findChoice(String data);
 	abstract public int findQuestionId(String data);
-//	public void stopCollecting() {
-//	//	this.notify();
-//		stop = true;
-//	}
-	public String collect(int index) throws TwitterException {
-		// TODO Auto-generated method stub
-		return null;
+	public void stopCollecting() {
+	//	this.notify();
+		stop = true;
 	}
 }
+/*
+class CollectorThread implements Runnable {
+	CollectorThread() {
+	}
 
-//class CollectorThread implements Runnable {
-//    CollectorThread() {
-//    }
-//    public void run() {
-//        // compute primes larger than minPrime
-//    }
-//}
+	public void run() {
+		
+	}
+}
+*/
+

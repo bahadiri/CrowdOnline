@@ -74,4 +74,19 @@ public class Answer {
 	public void setChoice(char choice) {
 		this.choice = choice;
 	}
+
+	public static char parseChoice(String text) {
+		String preText = text;
+		// delete all mention strings
+		text = text.replaceAll("@.+ ", " ").replaceAll(" @.+", " ");
+		// delete all hashtags
+		text = text.replaceAll("#.+ ", " ").replaceAll(" #.+", " ");
+		// delete all whitespaces
+		text = text.replaceAll(" ", "");
+		if(text.length() != 1){
+			System.out.println("There is a problem with answer \"" + preText + "\"");
+			return 'F';
+		} else
+			return text.charAt(0);
+	}
 }

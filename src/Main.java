@@ -40,7 +40,7 @@ public class Main {
 					System.out.println("Enter question phrase please: ");
 					questionPhrase = inputReader.readLine();
 				} else if (questionPhrase.toUpperCase().equals("C")){
-					System.out.println(twitterCollector.collect(0));
+					twitterCollector.collect();
 					break;
 				}
 				System.out.print("Enter choices please");
@@ -64,10 +64,7 @@ public class Main {
 			}
 		} catch (IOException e) {
 			System.out.println("IO exception");
-		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 	}
 
 }
