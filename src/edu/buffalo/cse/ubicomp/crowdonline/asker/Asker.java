@@ -7,8 +7,9 @@ import edu.buffalo.cse.ubicomp.crowdonline.asker.QuestionWithoutTime;
 
 public abstract class Asker implements Runnable{
 	int numOfChoices = 4;
+	int index = DBHandler.getQuestionDB().getLastID();
 	public void askQuestion(Question q){
-		Collector.setLastQuestionId(DBHandler.getQuestionDB().getID(q.getQuestion()));
+		Collector.setLastQuestionId(DBHandler.getQuestionDB().getLastID());
 		ask(q);
 	}
 	abstract public void ask(Question q);

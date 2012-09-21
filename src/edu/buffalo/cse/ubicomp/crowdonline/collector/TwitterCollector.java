@@ -15,6 +15,9 @@ public class TwitterCollector extends Collector {
 		adb = DBHandler.getAnswerDB();
 	}
 
+	public void stream(){
+		
+	}
 	@Override
 	public String collect(int index) throws TwitterException{
 //		List<DirectMessage> messages = twitter.getDirectMessages();
@@ -24,7 +27,8 @@ public class TwitterCollector extends Collector {
 		//DirectMessage message = messages.get(index);
 		Status mention = mentions.get(0);
 //		return "From: @" + message.getSenderScreenName() + " " + message.getText();
-		return "From: @" + mention.getUser().getScreenName()+ " " + mention.getText() + " sent by " + mention.getSource() + " as a reply to " + twitter.showStatus(mention.getInReplyToStatusId()).getText();
+		DBHandler.getTweetDB().add(mention);
+		return "From: @" + mention.getUser().getScreenName()+ " " + mention.getText() + " sent by " + mention.getSource() + " as a reply to " + twitter.showStatus(mention.getInReplyToStatusId()).getText() + " " + mention.getInReplyToStatusId();
 	}
 	
 	@Override

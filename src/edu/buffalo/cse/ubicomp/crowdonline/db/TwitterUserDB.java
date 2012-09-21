@@ -24,6 +24,32 @@ public class TwitterUserDB extends UserDB {
 	private static String accessTokenStr = "282403196-XScSAQ08ou4vj94N7GcUcBkitujvo8E259EUH1Yb";
 	private static String accessTokenSecret = "S3R22k1QuNGXDClzrDR1AFIO6AunUwsmi9y8x4BdzHM";
 	private static Twitter twitter = setTwitter();
+	public static String getConsumerKey() {
+		return consumerKey;
+	}
+
+	public static String getConsumerSecret() {
+		return consumerSecret;
+	}
+
+	public static String getAccessTokenStr() {
+		return accessTokenStr;
+	}
+
+	public static String getAccessTokenSecret() {
+		return accessTokenSecret;
+	}
+
+	private static String ownScreenName = "crowdonline";
+	
+	public static String getOwnScreenName() {
+		return ownScreenName;
+	}
+
+	public static void setOwnScreenName(String ownScreenName) {
+		TwitterUserDB.ownScreenName = ownScreenName;
+	}
+
 	private static AccessToken accessToken;
 	
 	public TwitterUserDB() {
@@ -206,6 +232,12 @@ public class TwitterUserDB extends UserDB {
 	public Object getLast() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public int getLastID() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
 

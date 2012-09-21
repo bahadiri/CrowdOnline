@@ -43,4 +43,10 @@ public class FacebookUserDB extends UserDB {
 		return null;
 	}
 
+	@Override
+	public int getLastID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

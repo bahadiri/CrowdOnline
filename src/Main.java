@@ -20,14 +20,18 @@ public class Main {
 		int questionNo = 1;
 		String questionPhrase, choiceA, choiceB, choiceC, choiceD;
 
-		Collector collector = new TwitterCollector();
-		Asker asker = new TwitterAsker(DBHandler.getQuestionDB().getID("randomStringXqwTewjbA32as5ZZx' or '1'='1"));
+		Collector twitterCollector = new TwitterCollector();
+		// start asker with the id of last question
+		Asker twitterAsker = new TwitterAsker();
+		//Asker twitterAsker = new TwitterAsker(DBHandler.getQuestionDB().getLastID());
 		Question q;
 		try {
 			BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in, "UTF8"));
 			while (true) {
 				System.out.println("Enter question phrase please(Q for ending the game, N for new contestant): ");
 				questionPhrase = inputReader.readLine();
+				//Before going to next question collect answers to the last question
+				//collector.collect(DBHandler.getQuestionDB().getID("randomStringXqwTewjbA32as5ZZx' or '1'='1"));
 				if (questionPhrase.toUpperCase().equals("Q")){
 					break;
 				}
@@ -36,7 +40,7 @@ public class Main {
 					System.out.println("Enter question phrase please: ");
 					questionPhrase = inputReader.readLine();
 				} else if (questionPhrase.toUpperCase().equals("C")){
-					System.out.println(collector.collect(0));
+					System.out.println(twitterCollector.collect(0));
 					break;
 				}
 				System.out.print("Enter choices please");
@@ -52,9 +56,10 @@ public class Main {
 				q = new Question(questionNo, questionPhrase, choiceA, choiceB,choiceC, choiceD);
 				System.out.println(q);
 				
+				// It's crucial to first add to DB then to ask
 				DBHandler.getQuestionDB().add(q);
-				asker.ask(q);
-				// collector.collect();
+				twitterAsker.ask(q);
+				System.out.println("Waiting for answers!");
 				questionNo++;
 			}
 		} catch (IOException e) {

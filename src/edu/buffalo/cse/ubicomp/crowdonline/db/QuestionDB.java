@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import twitter4j.Status;
+
 import com.mysql.jdbc.PreparedStatement;
 
 import edu.buffalo.cse.ubicomp.crowdonline.asker.*;
@@ -63,8 +65,13 @@ public class QuestionDB extends DB {
 	@Override
 	public int getID(String question) {
 		try {
-			String sql = "select question_id from question where question='" + question + "'";
-			Statement s = conn.createStatement();			
+			
+			String sql;
+			if(question.contains("'"))
+				sql = "select question_id from question where question=\"" + question + "\"";
+			else
+				sql= "select question_id from question where question='" + question + "'";
+			Statement s = conn.createStatement();	
 			ResultSet result = s.executeQuery(sql);
 			result.last();
 			if(result.getRow() == 0){
@@ -78,4 +85,30 @@ public class QuestionDB extends DB {
 		}
 	}
 
+	@Override
+	public int getLastID() {
+		int lastIndex = -1;
+		try {
+			String sql = "select * from question order by question_id desc limit 1";
+			Statement s = conn.createStatement();			
+			ResultSet result = s.executeQuery(sql);
+			result.last();
+			lastIndex = result.getInt(1);
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		return lastIndex;
+	}
+	
+	public boolean setTwitterIDS(String twitterIDS) {
+		try {
+			String sql = "update question set twitter_ids = " + "'" + twitterIDS +"' where question_id = (select max(question_id) from question)";
+			Statement s = conn.createStatement();
+			s.execute(sql);
+			return true;
+		} catch(SQLException e){
+			e.printStackTrace();
+			return false;
+		}
+	}
 }

@@ -13,6 +13,7 @@ public class DBHandler {
 	protected static FacebookUserDB fudb = new FacebookUserDB();
 	protected static QuestionDB qdb = new QuestionDB();
 	protected static AnswerDB adb = new AnswerDB();
+	protected static TweetDB tdb = new TweetDB();
 	
 	public static Connection connectToDB(String userName,String password) {
 		Connection conn = null;
@@ -43,5 +44,9 @@ public class DBHandler {
 	
 	public static AnswerDB getAnswerDB() {
 		return adb;
+	}
+	
+	public static TweetDB getTweetDB() {
+		return tdb;
 	}
 }

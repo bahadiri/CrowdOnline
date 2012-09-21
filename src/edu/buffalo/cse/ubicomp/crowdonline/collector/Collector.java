@@ -4,7 +4,7 @@ import edu.buffalo.cse.ubicomp.crowdonline.asker.Question;
 import edu.buffalo.cse.ubicomp.crowdonline.db.DBHandler;
 
 public abstract class Collector implements Runnable{
-	protected static int lastQuestionId = DBHandler.getQuestionDB().getID(((Question)DBHandler.getQuestionDB().getLast()).getQuestion());
+	protected static int lastQuestionId = DBHandler.getQuestionDB().getLastID();
 	protected static boolean stop = false;
 //	protected static CollectorThread thread;
 //	public Collector() {
@@ -21,7 +21,7 @@ public abstract class Collector implements Runnable{
 		lastQuestionId = newLastQuestionId;
 	}
 	public static int renewQuestionId(){
-		return (lastQuestionId = DBHandler.getQuestionDB().getID(((Question)DBHandler.getQuestionDB().getLast()).getQuestion()));
+		return (lastQuestionId = DBHandler.getQuestionDB().getLastID());
 	}
 //	public static int incrementQuestionId() {
 //		return lastQuestionId++;

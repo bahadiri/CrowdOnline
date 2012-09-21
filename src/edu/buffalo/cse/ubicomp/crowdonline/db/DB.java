@@ -15,5 +15,6 @@ public abstract class DB {
 	abstract public boolean add(Object o);
 	abstract public ArrayList<Object> getAll();
 	abstract public Object getLast();
+	abstract public int getLastID();
 	abstract public int getID(String data);
 }

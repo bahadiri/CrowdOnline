@@ -53,4 +53,10 @@ public class AnswerDB extends DB {
 		return 0;
 	}
 
+	@Override
+	public int getLastID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
