@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -100,15 +102,28 @@ public class TweetDB extends DB {
 	// returns 0 if not found a related question
 	public int getRelatedQuestion(Status tweet) {
 		long statusID = tweet.getInReplyToStatusId();
+		String text = tweet.getText();
+		
 		if( statusID == -1)
 		{
-			String text = tweet.getText();
-			if(text.toLowerCase().contains("#kmoi")){
-				text = text.substring(text.toLowerCase().indexOf("#kmoi")+5);
+			// If was a reply without @, we need to do text parsing to decide question no
+			if(text.toLowerCase().contains("kmoi")){
+				//if includes a tag or a tag without #
+				text = text.substring(text.toLowerCase().indexOf("kmoi")+4);
 				return Integer.parseInt(text.substring(0, text.indexOf(" ")));
+			} else if(text.toLowerCase().contains("kmoi ")){
+				text = text.substring(text.toLowerCase().indexOf("kmoi ")+5);
+				return Integer.parseInt(text.substring(0, text.indexOf(" ")));
+			} else if(text.matches(".*\\d\\d\\d.*")){
+				//if just includes the question no or misspelled tag-finding the number
+				Pattern intsOnly = Pattern.compile("\\d\\d\\d+");
+				Matcher makeMatch = intsOnly.matcher(text);
+				makeMatch.find();
+				return Integer.parseInt(makeMatch.group());
 			}
 			else return 0;
 		}
+		
 		if(knownQNos.containsKey(statusID))
 			return ((Integer) knownQNos.get(statusID)).intValue();
 		
@@ -118,7 +133,22 @@ public class TweetDB extends DB {
 			ResultSet result = s.executeQuery(sql);
 			result.last();
 			if(result.getRow() == 0){
-				return 0;
+				//Probably never reach here but in any case, text parsing to decide question no
+				if(text.toLowerCase().contains("kmoi")){
+					//if includes a tag or a tag without #
+					text = text.substring(text.toLowerCase().indexOf("kmoi")+4);
+					return Integer.parseInt(text.substring(0, text.indexOf(" ")));
+				} else if(text.toLowerCase().contains("kmoi ")){
+					text = text.substring(text.toLowerCase().indexOf("kmoi ")+5);
+					return Integer.parseInt(text.substring(0, text.indexOf(" ")));
+				} else if(text.matches(".*\\d\\d\\d.*")){
+					//if just includes the question no or misspelled tag-finding the number
+					Pattern intsOnly = Pattern.compile("\\d\\d\\d+");
+					Matcher makeMatch = intsOnly.matcher(text);
+					makeMatch.find();
+					return Integer.parseInt(makeMatch.group());
+				}
+				else return 0;
 			}
 			else {
 				knownQNos.put(statusID, result.getInt(1));

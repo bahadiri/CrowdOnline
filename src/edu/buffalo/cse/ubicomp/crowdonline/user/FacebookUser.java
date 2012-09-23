@@ -12,5 +12,4 @@ public class FacebookUser extends User {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

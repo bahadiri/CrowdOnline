@@ -1,8 +1,13 @@
 package edu.buffalo.cse.ubicomp.crowdonline.db;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import edu.buffalo.cse.ubicomp.crowdonline.collector.Answer;
+import edu.buffalo.cse.ubicomp.crowdonline.user.TwitterUser;
+import edu.buffalo.cse.ubicomp.crowdonline.user.User;
 
 public abstract class UserDB extends DB {
 
@@ -18,7 +23,6 @@ public abstract class UserDB extends DB {
 	public int getID(String contact) {
 		try {
 			String sql = "select user_id from user where contact='" + contact + "'";
-			System.out.println(sql);
 			Statement s = conn.createStatement();			
 			ResultSet result = s.executeQuery(sql);
 			result.last();
@@ -30,6 +34,40 @@ public abstract class UserDB extends DB {
 			System.err.println(e.getMessage());
 			return -1;
 		}
+	}
+	
+	public ArrayList<Answer> getAnswers(User u) {
+		ArrayList<Answer> list = new ArrayList<Answer>();
+		try {
+			String sql = "select * from answer where user_id = " + getID(u.getContact()) ;
+			Statement s = conn.createStatement();
+			ResultSet result = s.executeQuery(sql);
+			while (result.next()) {
+				Answer a = new Answer(result.getInt(2),result.getInt(3),result.getString(4).charAt(0));
+				a.setTime(result.getTimestamp(5));
+				list.add(a);
+			}
+		}  catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return list;
+	}
+
+	public ArrayList<Answer> getProgramAnswers(User u) {
+		ArrayList<Answer> list = new ArrayList<Answer>();
+		try {
+			String sql = "select * from answer where user_id = " + getID(u.getContact()) + " and question_id > " + DBHandler.getProgramDB().getQuestionIndex() ;
+			Statement s = conn.createStatement();
+			ResultSet result = s.executeQuery(sql);
+			while (result.next()) {
+				Answer a = new Answer(result.getInt(2),result.getInt(3),result.getString(4).charAt(0));
+				a.setTime(result.getTimestamp(5));
+				list.add(a);
+			}
+		}  catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return list;
 	}
 	
 	public boolean activate(String contact) {
@@ -54,6 +92,7 @@ public abstract class UserDB extends DB {
 			System.err.println(e.getMessage());
 			return false;
 		}
-		
 	}
+	
+	
 }

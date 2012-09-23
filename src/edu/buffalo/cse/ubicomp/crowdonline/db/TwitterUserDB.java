@@ -15,6 +15,7 @@ import com.mysql.jdbc.PreparedStatement;
 import twitter4j.*;
 import twitter4j.User;
 import twitter4j.auth.*;
+import edu.buffalo.cse.ubicomp.crowdonline.collector.Answer;
 import edu.buffalo.cse.ubicomp.crowdonline.user.*;
 
 public class TwitterUserDB extends UserDB {

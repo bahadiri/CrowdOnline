@@ -1,11 +1,12 @@
 package edu.buffalo.cse.ubicomp.crowdonline.user;
 
-public class EmailUser extends User {
+import edu.buffalo.cse.ubicomp.crowdonline.db.DBHandler;
 
-	
+public class EmailUser extends User {
 
 	public EmailUser(String contact) {
 		super(contact);
+	//	id = DBHandler.getEmailDB().getID(contact);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -14,5 +15,4 @@ public class EmailUser extends User {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

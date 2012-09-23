@@ -77,10 +77,15 @@ public class Answer {
 
 	public static char parseChoice(String text) {
 		String preText = text;
+		text = text.toUpperCase();
 		// delete all mention strings
 		text = text.replaceAll("@.+ ", " ").replaceAll(" @.+", " ");
 		// delete all hashtags
 		text = text.replaceAll("#.+ ", " ").replaceAll(" #.+", " ");
+		// delete hashtags written without #
+		text = text.replaceAll("KMOI.* ", " ").replaceAll(" KMOI.*", " ");
+		// delete all numbers
+		text = text.replaceAll("[0-9]+ ", " ").replaceAll(" [0-9]+", " ");
 		// delete all whitespaces
 		text = text.replaceAll(" ", "");
 		if(text.length() != 1){
@@ -89,4 +94,12 @@ public class Answer {
 		} else
 			return text.charAt(0);
 	}
+
+	@Override
+	public String toString() {
+		return "Answer [userId=" + userId + ", questionId=" + questionId
+				+ ", time=" + time + ", choice=" + choice + "]";
+	}
+	
+	
 }

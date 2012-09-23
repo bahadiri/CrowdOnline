@@ -7,7 +7,6 @@ public class TwitterUser extends User {
 
 	public TwitterUser(String contact) {
 		super(contact);
-		// TODO Auto-generated constructor stub
 	}
 
 	public boolean sendMessage(String message){

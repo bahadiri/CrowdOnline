@@ -11,9 +11,11 @@ public class DBHandler {
 	protected static Connection conn = connectToDB("bahadir","ben1o13SBy");
 	protected static TwitterUserDB tudb = new TwitterUserDB();
 	protected static FacebookUserDB fudb = new FacebookUserDB();
+	protected static GenericUserDB gudb = new GenericUserDB();
 	protected static QuestionDB qdb = new QuestionDB();
 	protected static AnswerDB adb = new AnswerDB();
 	protected static TweetDB tdb = new TweetDB();
+	protected static ProgramDB pdb = new ProgramDB();
 	
 	public static Connection connectToDB(String userName,String password) {
 		Connection conn = null;
@@ -38,6 +40,10 @@ public class DBHandler {
 		return fudb;
 	}
 
+	public static GenericUserDB getUserDB() {
+		return gudb;
+	}
+	
 	public static QuestionDB getQuestionDB() {
 		return qdb;
 	}
@@ -48,5 +54,9 @@ public class DBHandler {
 	
 	public static TweetDB getTweetDB() {
 		return tdb;
+	}
+	
+	public static ProgramDB getProgramDB() {
+		return pdb;
 	}
 }

@@ -17,7 +17,8 @@ import edu.buffalo.cse.ubicomp.crowdonline.user.*;
 public class Main {
 
 	public static void main(String[] args) {
-		int questionNo = 1;
+		int questionNo = 1, numOfContests = 1, numOfQuestions = 0;
+		boolean firstQuestion = true;
 		String questionPhrase, choiceA, choiceB, choiceC, choiceD;
 
 		Collector twitterCollector = new TwitterCollector();
@@ -33,15 +34,25 @@ public class Main {
 				//Before going to next question collect answers to the last question
 				//collector.collect(DBHandler.getQuestionDB().getID("randomStringXqwTewjbA32as5ZZx' or '1'='1"));
 				if (questionPhrase.toUpperCase().equals("Q")){
+					DBHandler.getProgramDB().endGame(numOfContests, numOfQuestions);
 					break;
 				}
 				else if (questionPhrase.toUpperCase().equals("N")){
 					questionNo = 1;
+					numOfContests++;
 					System.out.println("Enter question phrase please: ");
 					questionPhrase = inputReader.readLine();
 				} else if (questionPhrase.toUpperCase().equals("C")){
 					twitterCollector.collect();
 					break;
+				} else if (questionPhrase.toUpperCase().equals("A")){
+					new TwitterUser("bahadirismail").calculatePrize();
+					break;
+				} 
+				// Checking here because it shouldn't add a new game when collector starts
+				if(firstQuestion){
+					firstQuestion = false;
+					DBHandler.getProgramDB().add("");
 				}
 				System.out.print("Enter choices please");
 				System.out.print("\nA) ");
@@ -61,10 +72,10 @@ public class Main {
 				twitterAsker.ask(q);
 				System.out.println("Waiting for answers!");
 				questionNo++;
+				numOfQuestions++;
 			}
 		} catch (IOException e) {
 			System.out.println("IO exception");
 		} 
 	}
-
 }
