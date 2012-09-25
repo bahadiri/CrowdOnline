@@ -20,6 +20,7 @@ public class Main {
 		int questionNo = 1, numOfContests = 1, numOfQuestions = 0;
 		boolean firstQuestion = true;
 		String questionPhrase, choiceA, choiceB, choiceC, choiceD;
+		char correctChoice;
 
 		Collector twitterCollector = new TwitterCollector();
 		// start asker with the id of last question
@@ -46,7 +47,7 @@ public class Main {
 					twitterCollector.collect();
 					break;
 				} else if (questionPhrase.toUpperCase().equals("A")){
-					new TwitterUser("bahadirismail").calculatePrize();
+					System.out.println(new TwitterUser("bahadirismail").calculatePrize());
 					break;
 				} 
 				// Checking here because it shouldn't add a new game when collector starts
@@ -64,13 +65,16 @@ public class Main {
 				System.out.print("\nD) ");
 				choiceD = inputReader.readLine();
 
-				q = new Question(questionNo, questionPhrase, choiceA, choiceB,choiceC, choiceD);
+				q = new Question(questionNo, questionPhrase, choiceA, choiceB, choiceC, choiceD);
 				System.out.println(q);
 				
 				// It's crucial to first add to DB then to ask
 				DBHandler.getQuestionDB().add(q);
 				twitterAsker.ask(q);
-				System.out.println("Waiting for answers!");
+				System.out.print("Enter correct choice: ");
+				correctChoice = inputReader.readLine().toUpperCase().charAt(0);
+				q.setCorrectChoice(correctChoice);
+				DBHandler.getQuestionDB().setCorrectAnswer(correctChoice);
 				questionNo++;
 				numOfQuestions++;
 			}

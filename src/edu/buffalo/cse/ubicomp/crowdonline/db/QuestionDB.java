@@ -3,12 +3,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import twitter4j.Status;
 
 import com.mysql.jdbc.PreparedStatement;
 
 import edu.buffalo.cse.ubicomp.crowdonline.asker.*;
+import edu.buffalo.cse.ubicomp.crowdonline.collector.Answer;
+import edu.buffalo.cse.ubicomp.crowdonline.collector.CorrectAnswer;
+import edu.buffalo.cse.ubicomp.crowdonline.user.User;
 
 public class QuestionDB extends DB {
 
@@ -18,7 +23,7 @@ public class QuestionDB extends DB {
 	
 	public boolean add(Question q){
 		try{
-			String sql = "insert into question(no,question,time,choiceA,choiceB,choiceC,choiceD,correctChoice) values(?,?,?,?,?,?,?,?)";
+			String sql = "insert into question(no,question,time,choiceA,choiceB,choiceC,choiceD,correct_choice) values(?,?,?,?,?,?,?,?)";
 			PreparedStatement pStmt = (PreparedStatement) conn.prepareStatement(sql);
 			pStmt.setInt(1, q.getNo());
 			pStmt.setString(2, q.getQuestion());
@@ -34,6 +39,46 @@ public class QuestionDB extends DB {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	public boolean setCorrectAnswer(char correctChoice){
+		try {
+			String sql = "update question set correct_choice = " + "'" + correctChoice +"' order by question_id desc limit 1";
+			Statement s = conn.createStatement();
+			s.execute(sql);
+			return true;
+		} catch(SQLException e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean setCorrectAnswer(Question q){
+		try {
+			String sql = "update question set correct_choice = " + "'" + q.getCorrectChoice() +"' where question_id = " + getID(q.getQuestion());
+			Statement s = conn.createStatement();
+			s.execute(sql);
+			return true;
+		} catch(SQLException e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public SortedMap<Integer,CorrectAnswer> getProgramAnswerKey() {
+		//ArrayList<CorrectAnswer> answerKey = new ArrayList<CorrectAnswer>();
+		SortedMap<Integer,CorrectAnswer> answerKey = new TreeMap<Integer,CorrectAnswer>();
+		try {
+			String sql = "select * from question where question_id > " + DBHandler.getProgramDB().getQuestionIndex() ;
+			Statement s = conn.createStatement();
+			ResultSet result = s.executeQuery(sql);
+			// Preparing the answer key
+			while (result.next()) 
+				answerKey.put(result.getInt(1),new CorrectAnswer(result.getInt(1),result.getInt(2),result.getString(9).charAt(0)));
+		}  catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return answerKey;
 	}
 	
 	@Override
@@ -98,17 +143,5 @@ public class QuestionDB extends DB {
 			e.printStackTrace();
 		}
 		return lastIndex;
-	}
-	
-	public boolean setTwitterIDS(String twitterIDS) {
-		try {
-			String sql = "update question set twitter_ids = " + "'" + twitterIDS +"' where question_id = (select max(question_id) from question)";
-			Statement s = conn.createStatement();
-			s.execute(sql);
-			return true;
-		} catch(SQLException e){
-			e.printStackTrace();
-			return false;
-		}
 	}
 }

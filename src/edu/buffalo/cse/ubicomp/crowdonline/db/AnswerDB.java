@@ -1,7 +1,10 @@
 package edu.buffalo.cse.ubicomp.crowdonline.db;
 
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import com.mysql.jdbc.PreparedStatement;
 
@@ -21,13 +24,23 @@ public class AnswerDB extends DB {
 	
 	public boolean add(Answer a) {
 		try{
-			String sql = "insert into answer(user_id,question_id,choice,time) values(?,?,?,?)";
+			/*
+			String sql = "update answer set choice = ?, time = ? where user_id = ? and question_id = ?;";
 			PreparedStatement pStmt = (PreparedStatement) conn.prepareStatement(sql);
-			pStmt.setInt(1, a.getUserId());
-			pStmt.setInt(2, a.getQuestionId());
-			pStmt.setString(3, ""+a.getChoice());
-			pStmt.setTimestamp(4, a.getTime());
-			pStmt.execute();
+			pStmt.setString(1, ""+a.getChoice());
+			pStmt.setTimestamp(2, a.getTime());
+			pStmt.setInt(3, a.getUserId());
+			pStmt.setInt(4, a.getQuestionId());
+			if(pStmt.executeUpdate() == 0)
+			{*/
+				String sql = "insert into answer(user_id,question_id,choice,time) values(?,?,?,?)";
+				PreparedStatement pStmt2 = (PreparedStatement) conn.prepareStatement(sql);
+				pStmt2.setInt(1, a.getUserId());
+				pStmt2.setInt(2, a.getQuestionId());
+				pStmt2.setString(3, ""+a.getChoice());
+				pStmt2.setTimestamp(4, a.getTime());
+				pStmt2.execute();
+			//}
 			return true;
 		}catch(SQLException e){
 			e.printStackTrace();

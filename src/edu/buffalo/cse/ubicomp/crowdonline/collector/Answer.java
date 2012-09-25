@@ -99,7 +99,5 @@ public class Answer {
 	public String toString() {
 		return "Answer [userId=" + userId + ", questionId=" + questionId
 				+ ", time=" + time + ", choice=" + choice + "]";
-	}
-	
-	
+	}	
 }
