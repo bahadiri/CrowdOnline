@@ -1,5 +1,9 @@
 package edu.buffalo.cse.ubicomp.crowdonline.db;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -9,6 +13,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Level;
 
 import com.mysql.jdbc.PreparedStatement;
 
@@ -20,11 +25,24 @@ import edu.buffalo.cse.ubicomp.crowdonline.user.*;
 
 public class TwitterUserDB extends UserDB {
 
+	private static final String CONSUMER_KEY_PATH = "/twitter.consumerKey";
+	private static final String CONSUMER_SECRET_PATH = "/twitter.consumerSecret";
+	private static final String ACCESS_TOKEN_STR_PATH = "/twitter.accessTokenStr";
+	private static final String ACCESS_TOKEN_SECRET_PATH = "/twitter.accessTokenSecret";
+	  
+	/*
+	private static String consumerKey = getConsumerKey();
+	private static String consumerSecret = getConsumerSecret();
+	private static String accessTokenStr = getAccessTokenStr();
+	private static String accessTokenSecret = getAccessTokenSecret();
+	*/
 	private static String consumerKey = "VSu9z0Bgf1HFtPyUKJTzUw";
 	private static String consumerSecret = "2V55ZDMWUjxrOQjDzPhvN9ifPm63tQ7N7oZVyuFhuHI";
 	private static String accessTokenStr = "282403196-XScSAQ08ou4vj94N7GcUcBkitujvo8E259EUH1Yb";
 	private static String accessTokenSecret = "S3R22k1QuNGXDClzrDR1AFIO6AunUwsmi9y8x4BdzHM";
+	
 	private static Twitter twitter = setTwitter();
+	/*
 	public static String getConsumerKey() {
 		return consumerKey;
 	}
@@ -40,7 +58,7 @@ public class TwitterUserDB extends UserDB {
 	public static String getAccessTokenSecret() {
 		return accessTokenSecret;
 	}
-
+	 */
 	private static String ownScreenName = "crowdonline";
 	
 	public static String getOwnScreenName() {
@@ -239,6 +257,113 @@ public class TwitterUserDB extends UserDB {
 	public int getLastID() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	/**
+	 * Gets the access credentials.
+	 */
+	public static String getConsumerKey() {
+		if(consumerKey != null)
+			return consumerKey;
+		InputStream stream = Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream(CONSUMER_KEY_PATH);
+		if (stream == null) {
+			throw new IllegalStateException("Could not find file " + CONSUMER_KEY_PATH
+					+ " on web resources)");
+		}
+		BufferedReader reader = new BufferedReader(
+				new InputStreamReader(stream));
+		try {
+			String key = reader.readLine();
+			return key;
+		} catch (IOException e) {
+			throw new RuntimeException("Could not read file " + CONSUMER_KEY_PATH, e);
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				throw new RuntimeException("Exception closing "
+						+ CONSUMER_KEY_PATH, e);
+			}
+		}
+	}
+
+	public static String getConsumerSecret() {
+		if(consumerSecret != null)
+			return consumerSecret;
+		InputStream stream = Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream(CONSUMER_SECRET_PATH);
+		if (stream == null) {
+			throw new IllegalStateException("Could not find file " + CONSUMER_SECRET_PATH
+					+ " on web resources)");
+		}
+		BufferedReader reader = new BufferedReader(
+				new InputStreamReader(stream));
+		try {
+			String key = reader.readLine();
+			return key;
+		} catch (IOException e) {
+			throw new RuntimeException("Could not read file " + CONSUMER_SECRET_PATH, e);
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				throw new RuntimeException("Exception closing "
+						+ CONSUMER_SECRET_PATH, e);
+			}
+		}
+	}
+
+	public static String getAccessTokenStr() {
+		if(accessTokenStr != null)
+			return accessTokenStr;
+		InputStream stream = Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream(ACCESS_TOKEN_STR_PATH);
+		if (stream == null) {
+			throw new IllegalStateException("Could not find file " + ACCESS_TOKEN_STR_PATH
+					+ " on web resources)");
+		}
+		BufferedReader reader = new BufferedReader(
+				new InputStreamReader(stream));
+		try {
+			String key = reader.readLine();
+			return key;
+		} catch (IOException e) {
+			throw new RuntimeException("Could not read file " + ACCESS_TOKEN_STR_PATH, e);
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				throw new RuntimeException("Exception closing "
+						+ ACCESS_TOKEN_STR_PATH, e);
+			}
+		}
+	}
+
+	public static String getAccessTokenSecret() {
+		if(accessTokenSecret != null)
+			return accessTokenSecret;
+		InputStream stream = Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream(ACCESS_TOKEN_SECRET_PATH);
+		if (stream == null) {
+			throw new IllegalStateException("Could not find file " + ACCESS_TOKEN_SECRET_PATH
+					+ " on web resources)");
+		}
+		BufferedReader reader = new BufferedReader(
+				new InputStreamReader(stream));
+		try {
+			String key = reader.readLine();
+			return key;
+		} catch (IOException e) {
+			throw new RuntimeException("Could not read file " + ACCESS_TOKEN_SECRET_PATH, e);
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				throw new RuntimeException("Exception closing "
+						+ ACCESS_TOKEN_SECRET_PATH, e);
+			}
+		}
 	}
 }
 

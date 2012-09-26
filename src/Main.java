@@ -71,6 +71,7 @@ public class Main {
 				// It's crucial to first add to DB then to ask
 				DBHandler.getQuestionDB().add(q);
 				twitterAsker.ask(q);
+				//.ask(q);
 				System.out.print("Enter correct choice: ");
 				correctChoice = inputReader.readLine().toUpperCase().charAt(0);
 				q.setCorrectChoice(correctChoice);
