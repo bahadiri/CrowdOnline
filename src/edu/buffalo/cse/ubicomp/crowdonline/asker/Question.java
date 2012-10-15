@@ -4,8 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-
-import edu.buffalo.cse.ubicomp.crowdonline.asker.QuestionWithoutTime;
+import edu.buffalo.cse.ubicomp.GameServer.shared.QuestionWithoutTime;
 
 public class Question {
 	protected int no;

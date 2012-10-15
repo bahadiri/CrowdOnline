@@ -1,0 +1,3 @@
+# Module gameserver
+# RPC service class, partial path of RPC policy file
+edu.buffalo.cse.ubicomp.GameServer.client.GreetingService, 0365D8A0072C191D0C93C0F95AB2F54B.gwt.rpc

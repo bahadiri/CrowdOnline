@@ -1,0 +1,2 @@
+serviceClass: edu.buffalo.cse.ubicomp.GameServer.client.GreetingService
+path: 0365D8A0072C191D0C93C0F95AB2F54B.gwt.rpc

@@ -19,10 +19,10 @@ public class Answer {
 		this.choice = choice;
 	}
 	
-	public Answer(String screenName,  int questionId, char choice) {
+	public Answer(String contact,  int questionId, char choice) {
 		super();
 		this.time = new Timestamp(Calendar.getInstance().getTime().getTime());
-		this.userId = DBHandler.getTwitterUserDB().getID(screenName);
+		this.userId = DBHandler.getUserDB().getID(contact);
 		this.questionId = questionId;
 		this.choice = choice;
 	}
@@ -35,10 +35,10 @@ public class Answer {
 		this.choice = choice;
 	}
 	
-	public Answer(String screenName, String question, char choice) {
+	public Answer(String contact, String question, char choice) {
 		super();
 		this.time = new Timestamp(Calendar.getInstance().getTime().getTime());
-		this.userId = DBHandler.getTwitterUserDB().getID(screenName);
+		this.userId = DBHandler.getUserDB().getID(contact);
 		this.questionId = DBHandler.getQuestionDB().getID(question);
 		this.choice = choice;
 	}

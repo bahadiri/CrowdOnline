@@ -10,6 +10,7 @@ public class DBHandler {
 	//private static String connStr = "jdbc:mysql://107.21.123.31:3306/crowdonline_db?characterEncoding=UTF-8";
 	protected static Connection conn = connectToDB("bahadir","ben1o13SBy");
 	protected static TwitterUserDB tudb = new TwitterUserDB();
+	protected static AndroidUserDB audb = new AndroidUserDB();
 	protected static FacebookUserDB fudb = new FacebookUserDB();
 	protected static GenericUserDB gudb = new GenericUserDB();
 	protected static QuestionDB qdb = new QuestionDB();
@@ -36,6 +37,10 @@ public class DBHandler {
 		return tudb;
 	}
 
+	public static AndroidUserDB getAndroidUserDB() {
+		return audb;
+	}
+	
 	public static FacebookUserDB getFacebookUserDB() {
 		return fudb;
 	}

@@ -14,10 +14,9 @@
   - License for the specific language governing permissions and limitations
   - under the License.
 -->
-<project name="gcm-demo-server" default="dist">
+<project name="GameServer" default="dist">
 
   <property name="src" location="src"/>
-  <property name="lib" location="lib"/>
   <property name="build" location="build"/>
   <property name="classes" location="${build}/classes"/>
   <property name="dist" location="dist"/>
@@ -26,9 +25,6 @@
   <property name="web-lib" value="${web-src}/WEB-INF/lib"/>
 
   <path id="compile.classpath">
-    <fileset dir="${lib}">
-      <include name="*.jar"/>
-    </fileset>
     <fileset dir="${web-lib}">
       <include name="*.jar"/>
     </fileset>
